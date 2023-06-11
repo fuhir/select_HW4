@@ -56,6 +56,6 @@ SELECT album_name, COUNT(*) FROM track t
 JOIN album a ON t.album_id = a.id
 GROUP BY album_name
 HAVING COUNT(*) = (SELECT MIN(mycount)
-                     FROM (SELECT album_id, COUNT(*) mycount
-                             FROM track t
-                            GROUP BY album_id) foo);
+FROM (SELECT album_id, COUNT(*) mycount
+FROM track t
+GROUP BY album_id) foo);
