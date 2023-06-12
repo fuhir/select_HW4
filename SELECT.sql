@@ -16,11 +16,15 @@ GROUP BY album_name
 ORDER BY album_name ASC;
 
 -- SELECT-запрос, все исполнители, которые не выпустили альбомы в 2020 году;
-SELECT singer_name FROM singers_albums_list sat
-JOIN singer s ON sat.singer_id = s.id
-JOIN album a ON sat.album_id = a.id
-WHERE album_year != 2020
-ORDER BY singer_id; 
+SELECT DISTINCT singer_name
+  FROM album a
+  JOIN singers_albums_list aa ON a.id = aa.id
+  JOIN singer a2 ON aa.id = a2.id
+ WHERE singer_name != (SELECT DISTINCT singer_name
+                           FROM album a
+                           JOIN singers_albums_list aa ON a.id = aa.id
+                           JOIN singer a2 ON aa.id = a2.id
+                          WHERE album_year = 2020);
 
 -- SELECT-запрос, названия сборников, в которых присутствует конкретный исполнитель (выберите сами);
 SELECT DISTINCT singer_name, compilation_name FROM tracks_compilations_list tcl
